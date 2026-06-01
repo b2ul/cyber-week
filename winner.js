@@ -2,8 +2,18 @@ let winner = null;
  
 module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
   res.setHeader('Cache-Control', 'no-store');
+ 
+  // Reset (secret admin)
+  if (req.method === 'DELETE') {
+    const { secret } = req.body || {};
+    if (secret !== 'cyberweek2025') {
+      return res.status(403).json({ error: 'forbidden' });
+    }
+    winner = null;
+    return res.status(200).json({ success: true, message: 'reset done' });
+  }
  
   if (req.method === 'GET') {
     return res.status(200).json({ winner });
@@ -21,4 +31,5 @@ module.exports = (req, res) => {
     return res.status(200).json({ success: true, winner });
   }
 };
+ 
  
