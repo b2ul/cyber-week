@@ -10,6 +10,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "reset.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "winner.js",
       "use": "@vercel/node"
     }
@@ -22,6 +26,10 @@
     {
       "src": "/unlock.html",
       "dest": "/unlock.html"
+    },
+    {
+      "src": "/reset.html",
+      "dest": "/reset.html"
     },
     {
       "src": "/",
