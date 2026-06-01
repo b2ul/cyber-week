@@ -1,28 +1,31 @@
 {
   "version": 2,
-  "outputDirectory": "public",
   "builds": [
     {
-      "src": "public/**",
+      "src": "index.html",
       "use": "@vercel/static"
     },
     {
-      "src": "api/**/*.js",
+      "src": "unlock.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "winner.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src": "/api/winner",
+      "dest": "/winner.js"
+    },
+    {
+      "src": "/unlock.html",
+      "dest": "/unlock.html"
     },
     {
       "src": "/",
-      "dest": "/public/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/index.html"
     }
   ]
 }
