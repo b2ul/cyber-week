@@ -1,14 +1,14 @@
 let winner = null;
-
-export default function handler(req, res) {
+ 
+module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
   res.setHeader('Cache-Control', 'no-store');
-
+ 
   if (req.method === 'GET') {
     return res.status(200).json({ winner });
   }
-
+ 
   if (req.method === 'POST') {
     const { name, code } = req.body;
     if (code !== '23') {
@@ -20,4 +20,5 @@ export default function handler(req, res) {
     winner = name;
     return res.status(200).json({ success: true, winner });
   }
-}
+};
+ 
