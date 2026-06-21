@@ -8,14 +8,8 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --green: #00ff88;
-    --green-dim: #00cc66;
-    --green-glow: rgba(0,255,136,0.15);
-    --red: #ff3333;
-    --bg: #050505;
-    --border: #1a1a1a;
-    --text-dim: #444;
-    --text-mid: #888;
+    --green: #00ff88; --green-dim: #00cc66; --green-glow: rgba(0,255,136,0.15);
+    --red: #ff3333; --bg: #050505; --border: #1a1a1a; --text-dim: #444; --text-mid: #888;
   }
   html, body { width: 100%; height: 100%; background: var(--bg); color: var(--green); font-family: 'Share Tech Mono', monospace; overflow: hidden; }
   body::before {
@@ -28,13 +22,12 @@
     background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.7) 100%);
     pointer-events: none; z-index: 99;
   }
-  .screen { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; position: relative; }
+  .screen { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
   .top-bar {
     position: fixed; top: 0; left: 0; right: 0;
     display: flex; justify-content: space-between; align-items: center;
     padding: 12px 2rem; border-bottom: 0.5px solid var(--border);
-    font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
-    background: var(--bg); z-index: 50;
+    font-size: 11px; color: var(--text-dim); letter-spacing: 2px; background: var(--bg); z-index: 50;
   }
   .blink { animation: blink 1s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -43,34 +36,24 @@
   @keyframes flicker { 0%,95%,100%{opacity:1} 96%,98%{opacity:0.2} }
   .glitch {
     font-family: 'Cairo', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700;
-    color: var(--red); letter-spacing: 6px; position: relative;
+    color: var(--red); letter-spacing: 6px;
     text-shadow: 2px 0 var(--red), -2px 0 #ff000033; animation: glitch 4s infinite;
   }
   @keyframes glitch {
-    0%,90%,100% { transform: translate(0); text-shadow: 2px 0 var(--red), -2px 0 #ff000033; }
+    0%,90%,100% { transform: translate(0); }
     91% { transform: translate(-3px, 1px); }
     93% { transform: translate(3px, -1px); }
     95% { transform: translate(0); }
   }
   .err-code { color: var(--red); font-size: 12px; opacity: 0.5; margin-top: 0.5rem; letter-spacing: 2px; }
   .divider { width: min(600px, 90vw); height: 0.5px; background: linear-gradient(90deg, transparent, var(--green-dim), transparent); margin: 2rem auto; }
-  .hint-zone { text-align: center; margin-bottom: 2.5rem; }
+  .hint-zone { text-align: center; margin-bottom: 3rem; }
   .hint-label { font-size: 10px; letter-spacing: 4px; color: var(--text-dim); margin-bottom: 0.75rem; }
   .hint-text { font-family: 'Cairo', sans-serif; font-size: clamp(1rem, 2.5vw, 1.4rem); font-weight: 600; color: var(--green); line-height: 1.7; text-shadow: 0 0 20px var(--green-glow); }
   .blank { display: inline-block; width: 28px; border-bottom: 2px solid var(--green); margin: 0 4px; animation: blink 1.2s infinite; }
-  .bottom-zone { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
-  .qr-frame {
-    width: 160px; height: 160px; border: 2px solid var(--green-dim); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 20px var(--green-glow), inset 0 0 20px rgba(0,255,136,0.05);
-    position: relative; overflow: hidden;
-  }
-  .qr-frame img { width: 140px; height: 140px; image-rendering: pixelated; }
-  .scan-label { font-size: 10px; letter-spacing: 3px; color: var(--text-mid); }
-  .await-line { font-size: 12px; color: var(--text-dim); letter-spacing: 2px; }
+  .await-line { font-size: 13px; color: var(--text-dim); letter-spacing: 2px; text-align: center; }
   .cursor { display: inline-block; width: 9px; height: 15px; background: var(--green); vertical-align: middle; animation: blink 1s infinite; margin-right: 4px; }
   .event-name { font-family: 'Cairo', sans-serif; font-size: clamp(0.75rem, 1.5vw, 1rem); color: var(--text-dim); letter-spacing: 2px; margin-bottom: 1rem; }
-  /* Winner overlay */
   #winnerOverlay {
     display: none; position: fixed; inset: 0; background: var(--bg); z-index: 200;
     flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1.25rem;
@@ -83,8 +66,6 @@
   .w-divider { width: 200px; height: 0.5px; background: var(--green-dim); }
   .w-countdown { font-size: clamp(3rem, 10vw, 6rem); color: var(--green); text-shadow: 0 0 30px var(--green-glow); }
   .w-launch { font-size: 13px; letter-spacing: 4px; color: var(--green-dim); font-family: 'Cairo', sans-serif; }
-  /* QR url display */
-  .url-display { font-size: 13px; color: var(--green-dim); letter-spacing: 1px; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -98,7 +79,7 @@
   <div class="event-name">الإسبوع التوعوي للأمن الإلكتروني</div>
   <div class="error-zone">
     <div class="err-tag">!! فشل حرج في النظام !!</div>
-    <div class="glitch">تم اختراق النظام!!!</div>
+    <div class="glitch">النظام مقفل</div>
     <div class="err-code">ERR_0x4C4F434B — تم رصد وصول غير مصرح به</div>
   </div>
   <div class="divider"></div>
@@ -109,14 +90,7 @@
       اليوم هو اليوم <span class="blank"></span><span class="blank"></span>"
     </div>
   </div>
-  <div class="bottom-zone">
-    <div class="qr-frame">
-      <img id="qrImg" src="" alt="QR Code" />
-    </div>
-    <div class="scan-label">امسح الكود لإنقاذ النظام</div>
-    <div class="url-display" id="urlDisplay"></div>
-    <div class="await-line"><span class="cursor"></span>في انتظار الإدخال...</div>
-  </div>
+  <div class="await-line"><span class="cursor"></span>في انتظار الإدخال...</div>
 </div>
 
 <div id="winnerOverlay">
@@ -128,9 +102,7 @@
   <div class="w-launch">جارٍ إطلاق الإسبوع التوعوي...</div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-  // Clock
   function updateClock() {
     const now = new Date();
     document.getElementById('clock').textContent =
@@ -140,32 +112,13 @@
   setInterval(updateClock, 1000);
   updateClock();
 
-  // Generate QR pointing to unlock page
-  const unlockURL = window.location.origin + '/unlock.html';
-  document.getElementById('urlDisplay').textContent = unlockURL;
-
-  const qrDiv = document.createElement('div');
-  new QRCode(qrDiv, {
-    text: unlockURL,
-    width: 140, height: 140,
-    colorDark: '#00ff88', colorLight: '#050505',
-    correctLevel: QRCode.CorrectLevel.M
-  });
-  const qrFrame = document.querySelector('.qr-frame');
-  qrFrame.innerHTML = '';
-  qrFrame.appendChild(qrDiv);
-
-  // Poll for winner every second
   let solved = false;
   async function pollWinner() {
     if (solved) return;
     try {
       const res = await fetch('/api/winner');
       const data = await res.json();
-      if (data.winner) {
-        solved = true;
-        showWinner(data.winner);
-      }
+      if (data.winner) { solved = true; showWinner(data.winner); }
     } catch(e) {}
   }
   setInterval(pollWinner, 1000);
