@@ -17,7 +17,7 @@
     background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,255,136,0.008) 3px, rgba(0,255,136,0.008) 4px);
     pointer-events: none; z-index: 0;
   }
-  .container { position: relative; z-index: 1; max-width: 420px; margin: 0 auto; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; min-height: 100vh; }
+  .container { position: relative; z-index: 1; max-width: 420px; margin: 0 auto; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; min-height: 100vh; justify-content: center; }
   .event-tag { font-size: 9px; letter-spacing: 3px; color: var(--text-dim); text-align: center; font-family: 'Cairo', sans-serif; }
   .status-bar {
     display: flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 2px;
@@ -27,7 +27,7 @@
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
   .status-text { color: var(--red); font-family: 'Cairo', sans-serif; font-size: 13px; }
   .title-block { text-align: center; }
-  .title-main { font-family: 'Cairo', sans-serif; font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1.4; }
+  .title-main { font-family: 'Cairo', sans-serif; font-size: 1.6rem; font-weight: 700; color: #fff; }
   .title-sub { font-family: 'Cairo', sans-serif; font-size: 0.9rem; color: var(--text-mid); margin-top: 6px; }
   .hint-card { background: #0a0a0a; border: 0.5px solid #1a2a1a; border-radius: 8px; padding: 1.25rem; }
   .hint-card-label { font-size: 9px; letter-spacing: 3px; color: var(--text-dim); margin-bottom: 8px; }
@@ -35,109 +35,90 @@
   .blank { display: inline-block; width: 22px; border-bottom: 2px solid var(--green); margin: 0 3px; }
   .form-group { display: flex; flex-direction: column; gap: 6px; }
   .form-label { font-size: 9px; letter-spacing: 3px; color: var(--text-dim); }
-  input {
-    background: #0a0a0a; border: 0.5px solid #222; border-radius: 6px; padding: 13px 14px;
-    color: #fff; font-size: 1rem; font-family: 'Cairo', sans-serif; width: 100%; outline: none;
-    transition: border-color 0.2s; text-align: right;
+  input.code-input {
+    width: 100%; background: #0a0a0a; border: 0.5px solid #333; border-radius: 6px;
+    padding: 16px; color: var(--green); font-family: 'Share Tech Mono', monospace;
+    font-size: 2.5rem; letter-spacing: 16px; text-align: center; outline: none;
+    transition: border-color 0.2s;
   }
-  input:focus { border-color: var(--green-dim); box-shadow: 0 0 0 3px rgba(0,255,136,0.08); }
-  input.code-input { font-family: 'Share Tech Mono', monospace; font-size: 2rem; letter-spacing: 12px; text-align: center; color: var(--green); }
-  input::placeholder { color: var(--text-dim); }
+  input.code-input:focus { border-color: var(--green-dim); box-shadow: 0 0 0 3px rgba(0,255,136,0.08); }
+  input::placeholder { color: var(--text-dim); letter-spacing: 8px; }
   .attempts { display: flex; gap: 6px; justify-content: center; }
   .attempt-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-dim); transition: background 0.3s; }
   .attempt-dot.used { background: var(--red); }
   .submit-btn {
     width: 100%; padding: 15px; background: transparent; border: 1px solid var(--green-dim);
     border-radius: 6px; color: var(--green); font-family: 'Cairo', sans-serif; font-size: 1rem;
-    font-weight: 600; letter-spacing: 3px; cursor: pointer; transition: background 0.2s; margin-top: 0.5rem;
+    font-weight: 600; letter-spacing: 3px; cursor: pointer; transition: background 0.2s;
   }
   .submit-btn:hover { background: rgba(0,255,136,0.07); }
   .submit-btn:active { transform: scale(0.98); }
   .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .error-msg { color: var(--red); font-size: 12px; letter-spacing: 1px; text-align: center; min-height: 18px; font-family: 'Cairo', sans-serif; }
+  .error-msg { color: var(--red); font-size: 12px; text-align: center; min-height: 18px; font-family: 'Cairo', sans-serif; }
   #successState { display: none; flex-direction: column; align-items: center; gap: 1.25rem; text-align: center; padding: 2rem 0; }
   #successState.show { display: flex; }
-  .success-icon { font-size: 4rem; }
+  .success-icon { font-size: 4rem; color: var(--green); }
   .success-title { font-family: 'Cairo', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
   .success-sub { font-family: 'Cairo', sans-serif; font-size: 0.9rem; color: var(--text-mid); line-height: 1.7; }
-  .success-name { font-family: 'Cairo', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--green); }
-  #alreadySolved { display: none; text-align: center; padding: 2rem 0; }
-  #alreadySolved.show { display: block; }
-  .solved-msg { font-family: 'Cairo', sans-serif; font-size: 1rem; color: var(--text-mid); line-height: 1.8; }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="event-tag">الإسبوع التوعوي للأمن الإلكتروني</div>
+
   <div class="status-bar">
     <div class="status-dot" id="statusDot"></div>
     <span class="status-text" id="statusText">النظام مقفل — مطلوب رمز التخويل</span>
   </div>
 
-  <div id="mainContent">
-    <div class="title-block" style="margin-bottom:0.5rem;">
-      <div class="title-main">أنقذ النظام!</div>
-      <div class="title-sub">أدخل اسمك والرمز الصحيح لإنقاذ النظام وإطلاق الإسبوع التوعوي</div>
+  <div class="title-block">
+    <div class="title-main">أنقذ النظام!</div>
+    <div class="title-sub">أدخل الرمز الصحيح لإطلاق الإسبوع التوعوي</div>
+  </div>
+
+  <div class="hint-card">
+    <div class="hint-card-label">التلميح</div>
+    <div class="hint-card-text">
+      "كل دفاع عظيم يبدأ في يوم محدد...<br>
+      اليوم هو اليوم <span class="blank"></span><span class="blank"></span>"
     </div>
-    <div class="hint-card">
-      <div class="hint-card-label">التلميح</div>
-      <div class="hint-card-text">
-        "كل دفاع عظيم يبدأ في يوم محدد...<br>
-        اليوم هو اليوم <span class="blank"></span><span class="blank"></span>"
-      </div>
+  </div>
+
+  <div id="formSection" style="display:flex;flex-direction:column;gap:1rem;">
+    <div class="form-group">
+      <div class="form-label">الرمز (رقمان)</div>
+      <input type="number" id="codeInput" class="code-input" placeholder="_ _" />
     </div>
-    <div id="formSection" style="display:flex;flex-direction:column;gap:1rem;">
-      <div class="form-group">
-        <div class="form-label">اسمك</div>
-        <input type="text" id="nameInput" placeholder="أدخل اسمك..." maxlength="40" />
-      </div>
-      <div class="form-group">
-        <div class="form-label">الرمز (رقمان)</div>
-        <input type="number" id="codeInput" class="code-input" placeholder="_ _" />
-      </div>
-      <div class="attempts" id="attempts">
-        <div class="attempt-dot"></div>
-        <div class="attempt-dot"></div>
-        <div class="attempt-dot"></div>
-      </div>
-      <div class="error-msg" id="errorMsg"></div>
-      <button class="submit-btn" id="submitBtn" onclick="submitCode()">إرسال الرمز ←</button>
+    <div class="attempts">
+      <div class="attempt-dot"></div>
+      <div class="attempt-dot"></div>
+      <div class="attempt-dot"></div>
     </div>
-    <div id="alreadySolved">
-      <div class="solved-msg">تم حل اللغز بالفعل!<br>شاهد الشاشة الكبيرة 👀</div>
-    </div>
-    <div id="successState">
-      <div class="success-icon">✓</div>
-      <div class="success-title">أحسنت!</div>
-      <div class="success-name" id="successName"></div>
-      <div class="success-sub">لقد أنقذت النظام!<br>اسمك يظهر الآن على الشاشة الكبيرة 🎉</div>
-    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <button class="submit-btn" id="submitBtn" onclick="submitCode()">إرسال الرمز ←</button>
+  </div>
+
+  <div id="successState">
+    <div class="success-icon">✓</div>
+    <div class="success-title">تمت استعادة النظام!</div>
+    <div class="success-sub">شاهد الشاشة الكبيرة 🎉</div>
   </div>
 </div>
 
 <script>
+  // ============================================
+  // غيّري الاسم هنا فقط
+  const WINNER_NAME = "عبدالله";
+  // ============================================
+
   let attempts = 0;
   const MAX_ATTEMPTS = 3;
 
-  async function checkAlreadySolved() {
-    try {
-      const res = await fetch('/api/winner');
-      const data = await res.json();
-      if (data.winner) {
-        document.getElementById('formSection').style.display = 'none';
-        document.getElementById('alreadySolved').classList.add('show');
-      }
-    } catch(e) {}
-  }
-  checkAlreadySolved();
-
   async function submitCode() {
-    const name = document.getElementById('nameInput').value.trim();
     const code = document.getElementById('codeInput').value.trim();
     const err = document.getElementById('errorMsg');
     const btn = document.getElementById('submitBtn');
 
-    if (!name) { err.textContent = 'الرجاء إدخال اسمك أولاً'; return; }
     if (!code) { err.textContent = 'الرجاء إدخال الرمز'; return; }
 
     btn.disabled = true;
@@ -147,13 +128,13 @@
       const res = await fetch('/api/winner', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, code })
+        body: JSON.stringify({ name: WINNER_NAME, code })
       });
       const data = await res.json();
 
       if (res.status === 409) {
         document.getElementById('formSection').style.display = 'none';
-        document.getElementById('alreadySolved').classList.add('show');
+        document.getElementById('successState').classList.add('show');
         return;
       }
 
@@ -166,7 +147,6 @@
         btn.disabled = false;
         btn.textContent = 'إرسال الرمز ←';
         if (attempts >= MAX_ATTEMPTS) {
-          err.textContent = 'انتهت المحاولات. فكّر في التلميح مجدداً!';
           attempts = 0;
           setTimeout(() => {
             document.querySelectorAll('.attempt-dot').forEach(d => d.classList.remove('used'));
@@ -178,14 +158,10 @@
 
       if (data.success) {
         document.getElementById('formSection').style.display = 'none';
-        document.getElementById('successName').textContent = name;
         document.getElementById('successState').classList.add('show');
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
-        statusDot.style.background = '#00ff88';
-        statusDot.style.animation = 'none';
-        statusText.textContent = 'تمت استعادة النظام ✓';
-        statusText.style.color = '#00ff88';
+        document.getElementById('statusDot').style.cssText = 'background:#00ff88;animation:none;';
+        document.getElementById('statusText').textContent = 'تمت استعادة النظام ✓';
+        document.getElementById('statusText').style.color = '#00ff88';
       }
     } catch(e) {
       err.textContent = 'خطأ في الاتصال، حاول مجدداً';
